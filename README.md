@@ -2,6 +2,8 @@
 
 Proyek ini adalah aplikasi manajemen toko buah dan sayur berbasis web menggunakan **Node.js**, **Express**, dan **MongoDB**. Aplikasi ini mendukung operasi **CRUD** untuk entitas pengguna serta dapat dikembangkan lebih lanjut untuk manajemen barang dan transaksi.
 
+![Hehe](https://media1.tenor.com/m/wi_kpgWpdfcAAAAC/dungeon-meshi-delicious-in-dungeon.gif)
+
 ## Fitur Utama
 
 - Dashboard tampilan utama
