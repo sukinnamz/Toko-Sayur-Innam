@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+        <title>Pengguna - Toko Buah & Sayur</title>
+</head>
+
+<body data-sidebar="dark">
+    <div id="layout-wrapper">
+
+        <%- include('../partials/navbar'); %>
+            <%- include('../partials/sidebar'); %>
+
+                <div class="main-content">
+                    <div class="page-content">
+                        <div class="container-fluid">
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Daftar Pengguna</h4>
+                                <a href="/users/add" class="btn btn-primary">+ Tambah Pengguna</a>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Alamat</th>
+                                                <th>No. HP</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="userTableBody">
+                                            <!-- Data user akan dimuat via JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <%- include('../partials/footer'); %>
+                </div>
+    </div>
+
+    <script>
+        // Load data dari API
+        async function loadUsers() {
+            const res = await fetch('/api/users');
+            const users = await res.json();
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                tbody.innerHTML += `
+          <tr>
+            <td>${user.nama}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td>${user.alamat || '-'}</td>
+            <td>${user.no_hp || '-'}</td>
+            <td>
+              <a href="/users/edit/${user._id}" class="btn btn-sm btn-warning">Edit</a>
+              <button class="btn btn-sm btn-danger" onclick="deleteUser('${user._id}')">Hapus</button>
+            </td>
+          </tr>
+        `;
+            });
+        }
+
+        async function deleteUser(id) {
+            if (confirm('Yakin ingin menghapus user ini?')) {
+                const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    alert('User berhasil dihapus');
+                    loadUsers();
+                } else {
+                    const err = await res.json();
+                    alert('Gagal: ' + err.error);
+                }
+            }
+        }
+
+        loadUsers();
+    </script>
+</body>
+
+</html>
